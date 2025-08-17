@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>EXWIFE Presale</title>
   <style>
+    .progress { height: 12px; background:#eee; border-radius: 999px; overflow:hidden; border:1px solid #ddd; }
+    .progress > div { height: 100%; width: 0%; background:#111; }
+    .kpi { display:flex; gap:16px; flex-wrap:wrap; font-size:14px; }
+    .kpi b { font-weight:700; }
     body { font-family: ui-sans-serif, system-ui; max-width: 720px; margin: 40px auto; padding: 0 16px; }
     .card { border: 1px solid #ddd; border-radius: 14px; padding: 18px; margin: 14px 0; }
     button { padding: 10px 14px; border-radius: 10px; border: 1px solid #333; background: #fff; cursor: pointer; }
@@ -27,7 +31,17 @@
 
   <div class="card">
     <h3>Buy EXWIFE</h3>
-    <div class="muted">Send Sepolia ETH to the presale contract to mint tokens.</div>
+    <div class="card">
+  <h3>Progress</h3>
+  <div class="kpi" style="margin:6px 0 10px">
+    <div>Raised: <b><span id="raisedEth">0</span> ETH</b></div>
+    <div>Goal: <b><span id="goalEth">0</span> ETH</b></div>
+    <div>Status: <b><span id="saleStatus">Loading…</span></b></div>
+  </div>
+  <div class="progress"><div id="progressFill"></div></div>
+  <div class="muted" style="margin-top:8px" id="progressMsg"></div>
+</div>
+<div class="muted">Send Sepolia ETH to the presale contract to mint tokens.</div>
     <div class="row" style="margin-top:10px">
       <input id="ethAmount" type="number" min="0.01" step="0.01" value="0.02">
       <button id="buy">Send ETH</button>
@@ -60,6 +74,8 @@
     // ✅ Hard-coded addresses (yours)
     const TOKEN_ADDRESS = "0x56b93E10aF78806ACF23Ff2CeD509F6a01aD615E";
     const PRESALE_ADDRESS = "0xbc37B0CC79a807590f2b68742Fa7333708C9D292";
+// Progress goal (change this to whatever you want the target to be)
+const GOAL_ETH = 1.0; // example goal: 1 ETH
 
     // Minimal ABIs
     const ERC20_ABI = [
@@ -131,7 +147,47 @@
         }
       } catch (e) {
         $('buyMsg').textContent = "Refresh failed: " + (e && e.message ? e.message : e);
-      }
+      }// ----- Progress (Raised / Goal) -----
+// Raised = current contract balance (note: after finalize(true), this will be 0 because funds are forwarded)
+// During a live sale, this shows in-progress raised amount.
+let raisedWei = 0n;
+try {
+  if (provider) {
+    raisedWei = await provider.getBalance(PRESALE_ADDRESS);
+  } else {
+    // fallback: no injected provider — use default public provider for read
+    raisedWei = await (ethers.getDefaultProvider()).getBalance(PRESALE_ADDRESS);
+  }
+} catch (e) {
+  // ignore; leave as 0
+}
+
+const raisedEth = Number(ethers.formatEther(raisedWei));
+const goalEth = Number(GOAL_ETH);
+const pct = Math.max(0, Math.min(100, goalEth > 0 ? (raisedEth / goalEth) * 100 : 0));
+
+// Update UI numbers
+document.getElementById("raisedEth").textContent = raisedEth.toFixed(4);
+document.getElementById("goalEth").textContent   = goalEth.toString();
+
+// Fill bar
+const fill = document.getElementById("progressFill");
+fill.style.width = (fin ? "100%" : pct.toFixed(2) + "%");
+
+// Status text
+const saleStatus = document.getElementById("saleStatus");
+saleStatus.textContent = fin ? "Finalized" : (pct >= 100 ? "Goal reached" : "Live");
+
+// Helper message
+const pm = document.getElementById("progressMsg");
+if (fin) {
+  pm.textContent = "Presale finalized — funds have likely been forwarded to treasury, so contract balance may read 0.";
+} else if (pct >= 100) {
+  pm.textContent = "Goal reached. Buys may still be accepted until closing time unless capped.";
+} else {
+  pm.textContent = `Progress: ${pct.toFixed(2)}%`;
+}
+
     }
 
     async function buy() {
