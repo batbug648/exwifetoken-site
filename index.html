@@ -5,7 +5,21 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>EXWIFE Presale</title>
   <style>
-    .progress { height: 12px; background:#eee; border-radius: 999px; overflow:hidden; border:1px solid #ddd; }
+    .banner {
+  position: relative;
+  height: 300px;
+  border-radius: 16px;
+  border: 1px solid #ddd;
+  overflow: hidden;
+  background: url('img/exwife-hero.png') center/cover no-repeat;
+  margin-bottom: 20px;
+}
+.banner::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(250,250,250,0.85) 70%, #fafafa 100%);
+}
+.progress { height: 12px; background:#eee; border-radius: 999px; overflow:hidden; border:1px solid #ddd; }
     .progress > div { height: 100%; width: 0%; background:#111; }
     .kpi { display:flex; gap:16px; flex-wrap:wrap; font-size:14px; }
     .kpi b { font-weight:700; }
@@ -16,12 +30,28 @@
     .muted { color:#666; font-size: 13px; }
     .row { display:flex; gap:10px; align-items:center; }
     code { word-break: break-all; }
-  </style>
+  .banner {
+  position: relative;
+  height: 380px;
+  border-radius: 16px;
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+  background: url('img/exwife-hero.png') center/cover no-repeat;
+}
+.banner::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(250,250,250,0.85) 70%, #fafafa 100%);
+}
+.float-on-hero { margin-top: -90px; }
+.card.lift { box-shadow: 0 10px 30px rgba(0,0,0,0.10); }
+
+</style>
 </head>
 <body>
   <h1>Ex-Wife Token (EXWIFE)</h1>
-
-  <div class="card">
+<div class="banner" role="img" aria-label="EXWIFE hero banner"></div>
+    <div class="card">
     <div id="status" class="muted">Not connected</div>
     <div class="row" style="margin-top:10px">
       <button id="connect">Connect Wallet</button>
