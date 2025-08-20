@@ -3,9 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <title>EXWIFE — Meme Coin Presale (Aug 22)</title>
-  <link rel="canonical" href="https://exwifetoken.com/" />
+  <title>Ex-Wife Token (EXWIFE)</title>
 
   <!-- Fonts + Styles -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,29 +11,16 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./styles.css">
 
-  <!-- ==== SEO / Preview Metadata ==== -->
-  <meta name="description" content="EXWIFE token. Presale opens Aug 22. 10B supply. Join the divorce party.">
-  <meta name="robots" content="index, follow" />
-
-  <!-- Open Graph -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://exwifetoken.com/">
-  <meta property="og:title" content="EXWIFE — Meme Coin Presale (Aug 22)">
-  <meta property="og:description" content="EXWIFE token. Presale opens Aug 22. 10B supply. Join the divorce party.">
-  <meta property="og:image" content="https://exwifetoken.com/img/exwife-hero.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="EXWIFE — Meme Coin Presale (Aug 22)">
-  <meta name="twitter:description" content="EXWIFE token. Presale opens Aug 22. 10B supply. Join the divorce party.">
-  <meta name="twitter:image" content="https://exwifetoken.com/img/exwife-hero.png">
-
-  <link rel="icon" href="/favicon.ico" />
-
+  <!-- (Optional) Social previews — fill these later in Step 2 -->
+  <!--
+  <meta property="og:title" content="EXWIFE Token Presale 🚀" />
+  <meta property="og:description" content="The EX-WIFE is here. 10B supply. Presale live Aug 20." />
+  <meta property="og:image" content="https://exwifetoken.com/img/og-image.png" />
+  <meta property="og:url" content="https://exwifetoken.com" />
+  <meta name="twitter:card" content="summary_large_image" />
+  -->
   <style>
-    /* Minimal fallback for .banner (kept from your original) */
+    /* Minimal fallback for .banner (replace with a real image if you want) */
     .banner {
       width: 100%;
       height: 280px;
@@ -46,10 +31,11 @@
       border: 1px solid rgba(255,255,255,0.08);
     }
     .muted { color: var(--gray); }
+    /* Simple countdown grid if you already have the script */
     .countdown { display:flex; gap:14px; flex-wrap:wrap; margin-top:8px; }
-    .cd-box { background: rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.08); padding:10px; border-radius:8px; text-align:center; }
+    .cd-box { background: rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:10px 12px; min-width:72px; text-align:center; }
     .cd-box span { font-size:22px; font-weight:800; display:block; }
-    .cd-box label { font-size:12px; color: var(--gray); text-transform:uppercase; }
+    .cd-box label { font-size:12px; color: var(--gray); text-transform:uppercase; letter-spacing: .04em; }
   </style>
 </head>
 <body>
@@ -92,36 +78,6 @@
       </div>
     </section>
   </div>
-
-<!-- ===== Presale Interaction Test ===== -->
-<section id="presale-test" class="max-w-xl mx-auto" style="margin:2rem auto; padding:1rem;">
-  <div style="background:#141417; border:1px solid #222; border-radius:16px; padding:20px;">
-    <h2 style="margin:0 0 8px;">Presale Interaction Test (Sepolia)</h2>
-    <p style="opacity:.8; margin:0 0 12px;">
-      Connect your wallet, then try a small test buy (0.01 ETH) against the <strong>Test Presale</strong>.
-    </p>
-
-    <button id="btn-connect" style="padding:10px 14px; border-radius:10px; border:1px solid #333; background:#1f1f22; cursor:pointer;">
-      Connect Wallet
-    </button>
-
-    <div id="acct" style="margin-top:10px; font-family:monospace;"></div>
-    <div id="bal" style="margin-top:4px; font-family:monospace;"></div>
-
-    <div style="display:flex; gap:8px; margin-top:16px; align-items:center;">
-      <button id="btn-buy" disabled style="padding:10px 14px; border-radius:10px; border:1px solid #333; background:#1f1f22; cursor:pointer;">
-        Test Buy 0.01 ETH
-      </button>
-      <input id="custom-eth" type="number" step="0.001" min="0.001" placeholder="Custom ETH (e.g. 0.02)"
-             style="flex:1; padding:10px; border-radius:10px; border:1px solid #333; background:#0a0a0b; color:#fff;">
-      <button id="btn-buy-custom" disabled style="padding:10px 14px; border-radius:10px; border:1px solid #333; background:#1f1f22; cursor:pointer;">
-        Buy Custom
-      </button>
-    </div>
-
-    <pre id="log" style="margin-top:16px; background:#0a0a0b; border:1px solid #222; border-radius:12px; padding:12px; overflow:auto; max-height:220px;"></pre>
-  </div>
-</section>
 
   <!-- ===== PRESALE (polished) ===== -->
   <section id="presale" class="container" style="padding-top:20px; padding-bottom:60px;">
@@ -239,123 +195,6 @@
 
   <!-- Countdown -->
   <script src="./countdown.js"></script>
-<!-- Ethers v6 UMD (keep only one version on the page) -->
-<script src="https://cdn.jsdelivr.net/npm/ethers@6.15.1/dist/ethers.umd.min.js"></script>
-
-<script>
-(() => {
-  const { ethers } = window.ethers;
-
-  // ===== Addresses =====
-  const TOKEN_ADDRESS   = "0x72E284f9F2cf9DEE3e60e78B1730c6037A1858D4";
-  const PRESALE_ADDRESS = "0xDb5a326Aa1d97165EE8d513c0BB544Ca14E72A31"; // Test presale
-
-  // Minimal ABI for common patterns
-  const PRESALE_ABI = [
-    "function buy() payable",
-    "function minContribution() view returns (uint256)" // optional
-  ];
-
-  const els = {
-    connect: document.getElementById("btn-connect"),
-    buy: document.getElementById("btn-buy"),
-    buyCustom: document.getElementById("btn-buy-custom"),
-    customEth: document.getElementById("custom-eth"),
-    acct: document.getElementById("acct"),
-    bal: document.getElementById("bal"),
-    log: document.getElementById("log"),
-  };
-
-  let provider, signer, account;
-
-  function log(msg) {
-    els.log.textContent += (typeof msg === "string" ? msg : JSON.stringify(msg, null, 2)) + "\n";
-    els.log.scrollTop = els.log.scrollHeight;
-  }
-
-  async function switchToSepoliaIfNeeded() {
-    try {
-      const currentChainId = (await provider.getNetwork()).chainId;
-      if (Number(currentChainId) !== 11155111) {
-        await provider.send("wallet_switchEthereumChain", [{ chainId: "0xaa36a7" }]); // 11155111
-      }
-    } catch (err) {
-      log("⚠️ Could not auto-switch to Sepolia. Please select Sepolia in your wallet.");
-    }
-  }
-
-  async function connect() {
-    if (!window.ethereum) {
-      log("❌ No injected wallet found. Install MetaMask, Rabby, or Frame (with Sepolia).");
-      return;
-    }
-    provider = new ethers.BrowserProvider(window.ethereum);
-    await provider.send("eth_requestAccounts", []);
-    await switchToSepoliaIfNeeded();
-
-    const network = await provider.getNetwork();
-    log(`ℹ️ chainId: ${Number(network.chainId)} (Sepolia = 11155111)`);
-
-    signer = await provider.getSigner();
-    account = await signer.getAddress();
-
-    const balWei = await provider.getBalance(account);
-    const balEth = ethers.formatEther(balWei);
-
-    els.acct.textContent = `Account: ${account}`;
-    els.bal.textContent = `Sepolia ETH: ${balEth}`;
-    els.buy.disabled = false;
-    els.buyCustom.disabled = false;
-
-    log("✅ Wallet connected.");
-  }
-
-  async function tryBuy(amountEth) {
-    if (!signer) {
-      log("❌ Connect wallet first.");
-      return;
-    }
-    const value = ethers.parseEther(amountEth);
-
-    // Path 1: call buy()
-    try {
-      log(`🛒 buy() with ${amountEth} ETH…`);
-      const presale = new ethers.Contract(PRESALE_ADDRESS, PRESALE_ABI, signer);
-      const tx = await presale.buy({ value });
-      log({ submitting_tx_hash: tx.hash });
-      const rcpt = await tx.wait();
-      log("✅ buy() success");
-      log(rcpt);
-      return;
-    } catch (e1) {
-      log("⚠️ buy() failed, falling back to raw ETH send…");
-      log(e1.shortMessage || e1.message || e1);
-    }
-
-    // Path 2: raw ETH send (requires payable receive())
-    try {
-      log(`💸 sendTransaction ${amountEth} ETH → ${PRESALE_ADDRESS}…`);
-      const tx2 = await signer.sendTransaction({ to: PRESALE_ADDRESS, value });
-      log({ submitting_tx_hash: tx2.hash });
-      const rcpt2 = await tx2.wait();
-      log("✅ Raw send success");
-      log(rcpt2);
-    } catch (e2) {
-      log("❌ Raw send failed.");
-      log(e2.shortMessage || e2.message || e2);
-      log("Check: min contribution, presale start/paused, or required function name.");
-    }
-  }
-
-  els.connect.addEventListener("click", connect);
-  els.buy.addEventListener("click", () => tryBuy("0.01"));
-  els.buyCustom.addEventListener("click", () => {
-    const v = (els.customEth.value || "").trim();
-    if (!v) return log("Enter a custom ETH amount first.");
-    tryBuy(v);
-  });
-})();
-</script>
 </body>
 </html>
 
